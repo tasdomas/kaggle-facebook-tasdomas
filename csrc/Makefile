@@ -9,7 +9,7 @@ LDDFLAGS=$(LIBS)
 
 all: predict
 
-predict: main.cc
+predict: main.cc node.cc
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
 
 # Add a target-specific addition to CXXFLAGS for Code1:
