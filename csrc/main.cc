@@ -4,10 +4,19 @@ namespace po = boost::program_options;
 #include <iostream>
 #include <iterator>
 #include <string>
+#include <vector>
+
+#include "reader.h"
+#include "node_relation.h"
+
 using namespace std;
 
 int main(int ac, char* av[])
 {
+	string input;
+	NodeDirectory nodes;
+	int avg_in;
+	int avg_out;
 	try {
 
 		po::options_description desc("Allowed options");
@@ -29,6 +38,9 @@ int main(int ac, char* av[])
 
 		if (vm.count("train") && vm.count("test") && vm.count("result")) {
 			cout << " Computing results.. " << endl;
+			input = vm["train"].as<string>();
+			read_graph(input, nodes);
+			cout << " Total - " << nodes.size() << " nodes." << endl;
 		} else {
 			cout << "Parameters set incorrectly" << endl;
 			cout << desc;

@@ -1,7 +1,8 @@
 #ifndef __NODE_H__
 #define __NODE_H__
 
-#include <vector>
+#include <map>
+#include <set>
 
 #include "node_relation.h"
 
@@ -11,13 +12,21 @@ class Node
 {
 private:
 	int id;
-	vector<NodeRelation> in;
-	vector<NodeRelation> out;
+	set<int> links_in;
+	set<int> links_out;
 	int count_in;
 	int count_out;
 public:
 	explicit Node(int id);
+	Node();
 	~Node();
+
+	int getId();
+	void setId(int id);
+	void out(int id);
+	void in(int id);
 };
+
+typedef map<int, Node> NodeDirectory;
 
 #endif
