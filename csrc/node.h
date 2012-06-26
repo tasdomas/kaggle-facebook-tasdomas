@@ -5,8 +5,14 @@
 #include <set>
 
 #include "node_relation.h"
+#include "predictions.h"
 
 using namespace std;
+
+class Node;
+
+typedef map<int, Node> NodeDirectory;
+
 
 class Node
 {
@@ -25,8 +31,11 @@ public:
 	void setId(int id);
 	void out(int id);
 	void in(int id);
-};
 
-typedef map<int, Node> NodeDirectory;
+	int getRankIn();
+	int getRankOut();
+
+	Predictions missedBacklinks(NodeDirectory& context);
+};
 
 #endif
