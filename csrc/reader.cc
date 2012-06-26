@@ -41,3 +41,27 @@ void read_graph(string filename, NodeDirectory& nodes)
 	}
 
 }
+
+void read_test(string filename, vector<int>& nodes)
+{
+	ifstream input(filename.c_str());
+	string val;
+	int nid;
+
+	if (input.is_open())
+	{
+		getline(input, val);
+		while (input.good())
+		{
+			getline(input, val);
+			if (val != "")
+			{
+				nid = atoi(val.c_str());
+
+				nodes.push_back(nid);
+			}
+		}
+		input.close();
+	}
+
+}

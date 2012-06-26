@@ -8,15 +8,15 @@ namespace po = boost::program_options;
 
 #include "reader.h"
 #include "node_relation.h"
+#include "predictions.h"
 
 using namespace std;
 
 int main(int ac, char* av[])
 {
-	string input;
 	NodeDirectory nodes;
-	int avg_in;
-	int avg_out;
+	vector<int> query;
+
 	try {
 
 		po::options_description desc("Allowed options");
@@ -38,9 +38,17 @@ int main(int ac, char* av[])
 
 		if (vm.count("train") && vm.count("test") && vm.count("result")) {
 			cout << " Computing results.. " << endl;
-			input = vm["train"].as<string>();
-			read_graph(input, nodes);
+			string graphFile = vm["train"].as<string>();
+			string testFile = vm["test"].as<string>();
+			read_graph(graphFile, nodes);
+			read_test(testFile, query);
 			cout << " Total - " << nodes.size() << " nodes." << endl;
+			cout << " Total queries - " << query.size() << endl;
+
+			cout << " Computing predictions.." << endl;
+			map<int, vector<Predictions> > globalPredictions;
+
+
 		} else {
 			cout << "Parameters set incorrectly" << endl;
 			cout << desc;
