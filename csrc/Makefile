@@ -12,5 +12,8 @@ all: predict
 predict: main.cc node.cc reader.cc
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
 
+run:
+	./predict -i ../data/train.csv -t ../data/test.csv -o results.csv
+
 # Add a target-specific addition to CXXFLAGS for Code1:
 #Code1: CXXFLAGS += -I/opt/local/include
