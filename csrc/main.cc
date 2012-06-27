@@ -7,6 +7,7 @@ namespace po = boost::program_options;
 #include <vector>
 
 #include "reader.h"
+#include "writer.h"
 #include "node_relation.h"
 #include "predictions.h"
 
@@ -40,15 +41,24 @@ int main(int ac, char* av[])
 			cout << " Computing results.. " << endl;
 			string graphFile = vm["train"].as<string>();
 			string testFile = vm["test"].as<string>();
+			string resultFile = vm["result"].as<string>();
 			read_graph(graphFile, nodes);
 			read_test(testFile, query);
 			cout << " Total - " << nodes.size() << " nodes." << endl;
 			cout << " Total queries - " << query.size() << endl;
 
 			cout << " Computing predictions.." << endl;
-			map<int, vector<Predictions> > globalPredictions;
+			map<int, Predictions> globalPredictions;
 
-
+			vector<int>::iterator it;
+			for (it = query.begin(); it != query.end(); it++)
+			{
+				int nid = *it;
+				Predictions backlinks = nodes[nid].missedBacklinks(nodes);
+				globalPredictions[nid] = backlinks;
+			}
+			write_predictions(resultFile, globalPredictions);
+			cout << " Computations complete. " << globalPredictions.size() << " prediction lists generated." << endl;
 		} else {
 			cout << "Parameters set incorrectly" << endl;
 			cout << desc;

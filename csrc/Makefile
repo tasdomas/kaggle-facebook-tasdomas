@@ -9,7 +9,7 @@ LDDFLAGS=$(LIBS)
 
 all: predict
 
-predict: main.cc node.cc reader.cc
+predict: main.cc node.cc reader.cc predictions.cc writer.cc
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
 
 run:
