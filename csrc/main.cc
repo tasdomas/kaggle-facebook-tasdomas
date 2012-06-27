@@ -38,11 +38,12 @@ int main(int ac, char* av[])
 		}
 
 		if (vm.count("train") && vm.count("test") && vm.count("result")) {
-			cout << " Computing results.. " << endl;
 			string graphFile = vm["train"].as<string>();
 			string testFile = vm["test"].as<string>();
 			string resultFile = vm["result"].as<string>();
+			cout << " Loading data.. " << endl;
 			read_graph(graphFile, nodes);
+			cout << " Loading queries.." << endl;
 			read_test(testFile, query);
 			cout << " Total - " << nodes.size() << " nodes." << endl;
 			cout << " Total queries - " << query.size() << endl;
@@ -57,6 +58,8 @@ int main(int ac, char* av[])
 				Predictions backlinks = nodes[nid].missedBacklinks(nodes);
 				globalPredictions[nid] = backlinks;
 			}
+			cout << endl;
+			cout << " Writing results..";
 			write_predictions(resultFile, globalPredictions);
 			cout << " Computations complete. " << globalPredictions.size() << " prediction lists generated." << endl;
 		} else {
