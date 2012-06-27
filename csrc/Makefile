@@ -6,6 +6,8 @@ LIBS=-lboost_program_options -ldl
 
 CXXFLAGS=-Wall -Werror -O2 -g $(LIBS)
 LDDFLAGS=$(LIBS)
+DT = $(shell date --iso=seconds)
+
 
 all: predict
 
@@ -17,7 +19,7 @@ predict: main.o node.o reader.o predictions.o writer.o
 
 
 run:
-	./predict -i ../data/train.csv -t ../data/test.csv -o results.csv
+	./predict -i ../data/train.csv -t ../data/test.csv -o ../result$(DT).csv
 
 # Add a target-specific addition to CXXFLAGS for Code1:
 #Code1: CXXFLAGS += -I/opt/local/include
