@@ -9,8 +9,12 @@ LDDFLAGS=$(LIBS)
 
 all: predict
 
-predict: main.cc node.cc reader.cc predictions.cc writer.cc
+predict: main.o node.o reader.o predictions.o writer.o
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
+
+.cc.o:
+	$(CXX) -o $@ -c $(CXXFLAGS) $<
+
 
 run:
 	./predict -i ../data/train.csv -t ../data/test.csv -o results.csv
