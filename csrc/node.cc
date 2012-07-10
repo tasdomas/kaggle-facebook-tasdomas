@@ -77,7 +77,11 @@ int Node::getRankOut()
 
 map<int, float> Node::getFriends(NodeDirectory& context)
 {
-	map<int, float> friends;
+	static map<int, float> friends;
+	if (friends.size() != 0)
+	{
+		return friends;
+	}
 	float weight = 1.0 / this->getRankOut();
 
 	set<int>::iterator it;
@@ -93,7 +97,11 @@ map<int, float> Node::getFriends(NodeDirectory& context)
 
 map<int, float> Node::getFriendsAll(NodeDirectory& context)
 {
-	map<int, float> friends;
+	static map<int, float> friends;
+	if (friends.size() != 0)
+	{
+		return friends;
+	}
 	float weight_out = 1.0 / this->getRankOut();
 	float weight_in = 1.0 / this->getRankIn();
 
