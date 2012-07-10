@@ -91,6 +91,29 @@ map<int, float> Node::getFriends(NodeDirectory& context)
 	return friends;
 }
 
+map<int, float> Node::getFriendsAll(NodeDirectory& context)
+{
+	map<int, float> friends;
+	float weight_out = 1.0 / this->getRankOut();
+	float weight_in = 1.0 / this->getRankIn();
+
+	set<int>::iterator it;
+
+	for (it = this->links_out.begin();
+	     it != this->links_out.end();
+	     it++)
+	{
+		friends[*it] = weight_out;
+	}
+	for (it = this->links_in.begin();
+	     it != this->links_in.end();
+	     it++)
+	{
+		friends[*it] += weight_in;
+	}
+	return friends;
+}
+
 Predictions Node::friendsOfFriends(NodeDirectory& context)
 {
 	map<int, float> friends = this->getFriends(context);
@@ -111,7 +134,35 @@ Predictions Node::friendsOfFriends(NodeDirectory& context)
 			if ((this->links_out.find(fof_it->first) == this->links_out.end()) &&
 				(fof_it->first != this->id))
 			{
-				result[fof_it->first] += fof_it->second * it->second;
+				result[fof_it->first] += 0.5 * fof_it->second * it->second;
+			}
+		}
+	}
+	return result;
+}
+
+Predictions Node::fofAny(NodeDirectory& context)
+{
+	map<int, float> friends = this->getFriendsAll(context);
+
+	Predictions result;
+
+	map<int, float>::iterator it;
+
+	for (it = friends.begin();
+	     it != friends.end();
+	     it++)
+	{
+		map<int, float> fof = context[it->first].getFriendsAll(context);
+		map<int, float>::iterator fof_it;
+		for (fof_it = fof.begin();
+		     fof_it != fof.end();
+		     fof_it++)
+		{
+			if ((this->links_out.find(fof_it->first) == this->links_out.end()) &&
+				(fof_it->first != this->id))
+			{
+				result[fof_it->first] += 0.2 * fof_it->second * it->second;
 			}
 		}
 	}

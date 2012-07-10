@@ -40,9 +40,11 @@ public:
 	int getRankOut();
 
 	map<int, float> getFriends(NodeDirectory& context);
+	map<int, float> getFriendsAll(NodeDirectory& context);
 
 	Predictions missedBacklinks(NodeDirectory& context);
 	Predictions friendsOfFriends(NodeDirectory& context);
+	Predictions fofAny(NodeDirectory& context);
 };
 
 #endif
