@@ -20,8 +20,12 @@ private:
 	int id;
 	set<int> links_in;
 	set<int> links_out;
+	map<int, float> friends;
 	int count_in;
 	int count_out;
+	//TODO - make NodeDirectory a singleton
+	void generateFriends(NodeDirectory& context);
+
 public:
 	explicit Node(int id);
 	Node();
@@ -35,7 +39,10 @@ public:
 	int getRankIn();
 	int getRankOut();
 
+	map<int, float> getFriends(NodeDirectory& context);
+
 	Predictions missedBacklinks(NodeDirectory& context);
+	Predictions friendsOfFriends(NodeDirectory& context);
 };
 
 #endif

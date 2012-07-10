@@ -74,3 +74,46 @@ int Node::getRankOut()
 {
 	return this->count_out;
 }
+
+map<int, float> Node::getFriends(NodeDirectory& context)
+{
+	map<int, float> friends;
+	float weight = 1.0 / this->getRankOut();
+
+	set<int>::iterator it;
+
+	for (it = this->links_out.begin();
+	     it != this->links_out.end();
+	     it++)
+	{
+		friends[*it] = weight;
+	}
+	return friends;
+}
+
+Predictions Node::friendsOfFriends(NodeDirectory& context)
+{
+	map<int, float> friends = this->getFriends(context);
+	Predictions result;
+
+	map<int, float>::iterator it;
+
+	for (it = friends.begin();
+	     it != friends.end();
+	     it++)
+	{
+		map<int, float> fof = context[it->first].getFriends(context);
+		map<int, float>::iterator fof_it;
+		for (fof_it = fof.begin();
+		     fof_it != fof.end();
+		     fof_it++)
+		{
+			if ((this->links_out.find(fof_it->first) == this->links_out.end()) &&
+				(fof_it->first != this->id))
+			{
+				result[fof_it->first] += fof_it->second * it->second;
+			}
+		}
+	}
+	return result;
+}

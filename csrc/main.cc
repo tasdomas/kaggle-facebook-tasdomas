@@ -56,7 +56,9 @@ int main(int ac, char* av[])
 			{
 				int nid = *it;
 				Predictions backlinks = nodes[nid].missedBacklinks(nodes);
+				Predictions fof = nodes[nid].friendsOfFriends(nodes);
 				globalPredictions[nid] = backlinks;
+				combine(globalPredictions[nid], fof);
 			}
 			cout << endl;
 			cout << " Writing results..";
