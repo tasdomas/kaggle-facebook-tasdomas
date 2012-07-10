@@ -1,5 +1,11 @@
 Facebook*
 *.bin
 data/
+archive/
 *~
 *.o
+*.csv
+*.gz
+*.pyc
+TAGS
+csrc/predict
